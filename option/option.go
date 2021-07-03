@@ -123,30 +123,3 @@ type withHeader struct{ header *http.Header }
 func (w withHeader) Apply(o *setting.DialSettings) {
 	o.Header = w.header
 }
-
-
-// withSignerOption 为 Client 设置 Signer
-type withSignerOption struct {
-	Signer auth.Signer
-}
-
-// Apply 将配置添加到 core.DialSettings 中
-func (w withSignerOption) Apply(o *setting.DialSettings) error {
-	o.Signer = w.Signer
-	return nil
-}
-
-// WithSigner 返回一个指定signer的ClientOption
-func WithSigner(signer auth.Signer) core.ClientOption {
-	return withSignerOption{Signer: signer}
-}
-
-// WithMerchantCredential 通过商户号、商户证书序列号、商户私钥构建一对 Credential/Signer，用于生成请求头中的 Authorization 信息
-func WithMerchantCredential(mchID, certificateSerialNo string, privateKey *rsa.PrivateKey) core.ClientOption {
-	signer := &signers.SHA256WithRSASigner{
-		MchID:               mchID,
-		PrivateKey:          privateKey,
-		CertificateSerialNo: certificateSerialNo,
-	}
-	return WithSigner(signer)
-}
