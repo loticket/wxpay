@@ -1,9 +1,15 @@
-//Package consts 微信支付api v3 go http-client 常量
 package consts
+
+// 微信支付 API 地址
+const (
+	WechatPayAPIServer       = "https://api.mch.weixin.qq.com"  // 微信支付 API 地址
+	WechatPayAPIServerBackup = "https://api2.mch.weixin.qq.com" // 微信支付 API 备份地址
+)
+
 
 // http request header 相关常量
 const (
-	Version             = "1.0"                                // client版本
+	Version             = "0.2.1"                              // client版本
 	Authorization       = "Authorization"                      // header中的Authorization字段
 	Accept              = "Accept"                             // header中的Accept字段
 	ContentType         = "Content-Type"                       // header中的ContentType字段
@@ -11,10 +17,17 @@ const (
 	ImageJPG            = "image/jpg"                          // ContentType为image/jpg
 	VideoMP4            = "video/mp4"                          // ContentType为video/mp4
 	UserAgent           = "User-Agent"                         // header中的UserAgent字段
-	UserAgentContent    = "WechatPay-Go-HttpClient/" + Version // UserAgent中的信息
+	UserAgentContent    = "Go-HttpClient/" + Version // UserAgent中的信息
 	HeaderAuthorization = "WECHATPAY2-SHA256-RSA2048 mchid=\"%s\",nonce_str=\"%s\",timestamp=\"%d\",serial_no=\"%s\"," +
 		"signature=\"%s\"" //Authorization信息
+)
 
+
+// 请求报文签名相关常量
+const (
+	SignatureMessageFormat = "%s\n%s\n%d\n%s\n%s\n" // 数字签名原文格式
+	// HeaderAuthorizationFormat 请求头中的 Authorization 拼接格式
+	HeaderAuthorizationFormat = "%s mchid=\"%s\",nonce_str=\"%s\",timestamp=\"%d\",serial_no=\"%s\",signature=\"%s\""
 )
 
 // http response header 相关常量
@@ -33,3 +46,5 @@ const (
 	FiveMinute    = 5 * 60                                                           // 回包校验最长时间
 	CERTIFICATE   = "CERTIFICATE"                                                    // 证书标识
 )
+
+

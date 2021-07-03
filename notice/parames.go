@@ -1,5 +1,7 @@
 package notice
 
+import "time"
+
 //签名--主要验证签名的来源
 type SignInfo struct {
 	HeaderTimestamp string `json:"Wechatpay-Timestamp"`
@@ -10,20 +12,23 @@ type SignInfo struct {
 }
 
 type NotifyResponse struct {
-	Id            string   `json:"id"`     //通知的唯一ID
-	EventType     string   `json:"event_type"` //通知的类型，支付成功通知的类型为TRANSACTION.SUCCESS 示例值：TRANSACTION.SUCCESS
-	ResourceType  string   `json:"resource_type"` //通知的资源数据类型，支付成功通知为encrypt-resource 示例值：encrypt-resource
-	CreateTime    string   `json:"create_time"`
-	Resource     *NotifyResource `json:"resource"`
-	Summary      string    `json:"summary"` //回调摘要 示例值：支付成功
-	SignInfo     *SignInfo `json:"-"`
+	ID           string             `json:"id"`
+	CreateTime   *time.Time         `json:"create_time"`
+	EventType    string             `json:"event_type"`
+	ResourceType string             `json:"resource_type"`
+	Resource     *EncryptedResource `json:"resource"`
+	Summary      string             `json:"summary"`
 }
-type NotifyResource struct {
-	Algorithm       string `json:"algorithm"` //对开启结果数据进行加密的加密算法，目前只支持AEAD_AES_256_GCM
-	Ciphertext      string `json:"ciphertext"` //Base64编码后的开启/停用结果数据密文
-	AssociatedData  string `json:"associated_data"` //附加数据
-	OriginalType    string `json:"original_type"` //原始回调类型，为transaction
-	Nonce           string `json:"nonce"` //加密使用的随机串
+
+
+// EncryptedResource 微信支付通知请求中的内容
+type EncryptedResource struct {
+	Algorithm      string `json:"algorithm"`
+	Ciphertext     string `json:"ciphertext"`
+	AssociatedData string `json:"associated_data"`
+	Nonce          string `json:"nonce"`
+	OriginalType   string `json:"original_type"`
+	Plaintext string // Ciphertext 解密后内容
 }
 
 

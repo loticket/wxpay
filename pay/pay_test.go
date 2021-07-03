@@ -5,5 +5,5 @@ import (
 )
 
 func TestPay(t *testing.T) {
-	//
+
 }
