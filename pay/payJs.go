@@ -114,7 +114,7 @@ func (o *JsOrder) BridgeConfig(p Params) (cfg BridgeApp, err error) {
   	 timestamp = strconv.FormatInt(time.Now().Unix(), 10)
   	 nonceStr = utils.GenerateNonceStr(32)
   )
-
+  apiPrepay.PrepayId = "prepay_id=" + apiPrepay.PrepayId
   buffer.WriteString(o.AppID)
   buffer.WriteString("\n")
   buffer.WriteString(timestamp)
