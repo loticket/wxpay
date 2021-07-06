@@ -70,25 +70,16 @@ func (n *Notice) ParseNotify(request *http.Request,v3DecryptResult interface{}) 
 
 func (n *Notice) checkParameters(header http.Header) error {
 
-	requestID := strings.TrimSpace(header.Get(consts.RequestID))
-	if requestID == "" {
-		return fmt.Errorf("empty %s", consts.RequestID)
-	}
-
 	if strings.TrimSpace(header.Get(consts.WechatPaySerial)) == "" {
-		return fmt.Errorf("empty %s, request-id=[%s]", consts.WechatPaySerial, requestID)
+		return fmt.Errorf("empty %s, WechatPaySerial=[%s]", consts.WechatPaySerial, requestID)
 	}
-
-	if strings.TrimSpace(header.Get(consts.WechatPaySignature)) == "" {
-		return fmt.Errorf("empty %s, request-id=[%s]", consts.WechatPaySignature, requestID)
-	}
-
+	
 	if strings.TrimSpace(header.Get(consts.WechatPayTimestamp)) == "" {
-		return fmt.Errorf("empty %s, request-id=[%s]", consts.WechatPayTimestamp, requestID)
+		return fmt.Errorf("empty %s,WechatPayTimestamp=[%s]", consts.WechatPayTimestamp, requestID)
 	}
 
 	if strings.TrimSpace(header.Get(consts.WechatPayNonce)) == "" {
-		return fmt.Errorf("empty %s, request-id=[%s]", consts.WechatPayNonce, requestID)
+		return fmt.Errorf("empty %s, WechatPayNonce=[%s]", consts.WechatPayNonce, requestID)
 	}
 
 	timeStampStr := strings.TrimSpace(header.Get(consts.WechatPayTimestamp))
