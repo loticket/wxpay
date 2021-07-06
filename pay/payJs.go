@@ -106,7 +106,7 @@ func (o *JsOrder) prePayOrder(p Params) (PayPrepay,error){
 func (o *JsOrder) BridgeConfig(p Params) (cfg BridgeJs, err error) {
   apiPrepay,err := o.prePayOrder(p)
   if err != nil {
-  	 return BridgeApp{},err
+  	 return BridgeJs{},err
   }
 
   var (
@@ -130,12 +130,12 @@ func (o *JsOrder) BridgeConfig(p Params) (cfg BridgeJs, err error) {
 	//解析私钥
 	rasKey,err := o.PaserPrivateKey()
 	if err != nil {
-		return BridgeApp{},err
+		return BridgeJs{},err
 	}
 
 	signature , err := signers.Sha256WithRsa(rsaStr,rasKey)
 	if err != nil {
-		return BridgeApp{}, err
+		return BridgeJs{}, err
 	}
 	
   return BridgeJs{
@@ -144,6 +144,6 @@ func (o *JsOrder) BridgeConfig(p Params) (cfg BridgeJs, err error) {
 	  NonceStr:nonceStr,
 	  SignType:"RSA",
           Package: apiPrepay.PrepayId,
-	  Sign:signature,
+	  PaySign:signature,
   },nil
 }
