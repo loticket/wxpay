@@ -71,25 +71,25 @@ func (n *Notice) ParseNotify(request *http.Request,v3DecryptResult interface{}) 
 func (n *Notice) checkParameters(header http.Header) error {
 
 	if strings.TrimSpace(header.Get(consts.WechatPaySerial)) == "" {
-		return fmt.Errorf("empty %s, WechatPaySerial=[%s]", consts.WechatPaySerial, requestID)
+		return fmt.Errorf("empty %s, WechatPaySerial", consts.WechatPaySerial)
 	}
 	
 	if strings.TrimSpace(header.Get(consts.WechatPayTimestamp)) == "" {
-		return fmt.Errorf("empty %s,WechatPayTimestamp=[%s]", consts.WechatPayTimestamp, requestID)
+		return fmt.Errorf("empty %s,WechatPayTimestamp", consts.WechatPayTimestamp)
 	}
 
 	if strings.TrimSpace(header.Get(consts.WechatPayNonce)) == "" {
-		return fmt.Errorf("empty %s, WechatPayNonce=[%s]", consts.WechatPayNonce, requestID)
+		return fmt.Errorf("empty %s, WechatPayNonce", consts.WechatPayNonce)
 	}
 
 	timeStampStr := strings.TrimSpace(header.Get(consts.WechatPayTimestamp))
 	timeStamp, err := strconv.Atoi(timeStampStr)
 	if err != nil {
-		return fmt.Errorf("invalid timestamp:[%s] request-id=[%s] err:[%v]", timeStampStr, requestID, err)
+		return fmt.Errorf("invalid timestamp:[%s] err:[%v]", timeStampStr, err)
 	}
 
 	if math.Abs(float64(timeStamp)-float64(time.Now().Unix())) >= consts.FiveMinute {
-		return fmt.Errorf("timestamp=[%d] expires, request-id=[%s]", timeStamp, requestID)
+		return fmt.Errorf("timestamp=[%d] expires", timeStamp)
 	}
 	return nil
 }
