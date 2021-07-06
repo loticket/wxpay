@@ -41,7 +41,7 @@ func NewJsOrder(cfg *Config) *JsOrder {
 }
 
 //支付
-func (o *JsOrder) Pay(out_trade_no string,amount int64,openid string,description string,attach string)(BridgeApp,error) {
+func (o *JsOrder) Pay(out_trade_no string,amount int64,openid string,description string,attach string)(BridgeJs,error) {
   var param Params = Params{
 	  TotalFee:amount,
 	  Description:description,
@@ -103,7 +103,7 @@ func (o *JsOrder) prePayOrder(p Params) (PayPrepay,error){
 }
 
 //app返回信息等待支付
-func (o *JsOrder) BridgeConfig(p Params) (cfg BridgeApp, err error) {
+func (o *JsOrder) BridgeConfig(p Params) (cfg BridgeJs, err error) {
   apiPrepay,err := o.prePayOrder(p)
   if err != nil {
   	 return BridgeApp{},err
@@ -137,14 +137,13 @@ func (o *JsOrder) BridgeConfig(p Params) (cfg BridgeApp, err error) {
 	if err != nil {
 		return BridgeApp{}, err
 	}
-
-  return BridgeApp{
+	
+  return BridgeJs{
 	  AppId:o.AppID,
-	  Partnerid: o.MchID,
 	  TimeStamp:timestamp,
 	  NonceStr:nonceStr,
-      Prepayid:apiPrepay.PrepayId,
-      Package: "Sign=WXPay",
+	  SignType:"RSA",
+          Package: apiPrepay.PrepayId,
 	  Sign:signature,
   },nil
 }
