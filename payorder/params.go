@@ -1,4 +1,9 @@
-package pay
+package payorder
+
+const (
+	payOrderNativeGateway = "https://api.mch.weixin.qq.com/v3/pay/transactions/native"
+	payOrderJsGateway = "https://api.mch.weixin.qq.com/v3/pay/transactions/jsapi"
+)
 
 type Params struct {
 	TotalFee    int64  //金额
@@ -85,3 +90,37 @@ type NativePay struct {
 	Amount      Amount `json:"amount"`                //订单金额
 }
 
+//h5支付
+type SceneInfo struct {
+	PayerClientIp string `json:"payer_client_ip"`
+	H5Info H5Info `json:"h5_info"`
+}
+
+type H5Info struct {
+	Types string `json:type`
+}
+
+
+type H5Pay struct {
+	Appid       string `json:"appid"`                 //由微信生成的应用ID，全局唯一
+	Mchid       string `json:"mchid"`                 //直连商户号
+	Description string `json:"description"`           //商品描述
+	OutTradeNo  string `json:"out_trade_no"`          //商户订单号
+	TimeExpire  string `json:"time_expire,omitempty"` //交易结束时间
+	Attach      string `json:"attach"`                //附加数据
+	NotifyUrl   string `json:"notify_url"`            //通知地址
+	GoodsTag    string `json:"goods_tag,omitempty"`   //订单优惠标记
+	Amount      Amount `json:"amount"`                //订单金额
+	SceneInfo   SceneInfo `json:"scene_info"`
+}
+
+
+//预支付下单返回
+type BridgeNative struct {
+	CodeUrl string `json:"code_url"`
+}
+
+//预支付下单返回
+type BridgeH5 struct {
+	H5Url string `json:"h5_url"`
+}
