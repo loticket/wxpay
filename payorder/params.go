@@ -2,7 +2,7 @@ package payorder
 
 const (
 	payOrderNativeGateway = "https://api.mch.weixin.qq.com/v3/pay/transactions/native"
-	payOrderJsGateway = "https://api.mch.weixin.qq.com/v3/pay/transactions/jsapi"
+	payOrderJsGateway     = "https://api.mch.weixin.qq.com/v3/pay/transactions/jsapi"
 )
 
 type Params struct {
@@ -34,29 +34,35 @@ type BridgeApp struct {
 	Sign      string `json:"sign"`
 }
 
-
 //订单金额
 type Amount struct {
-	Total    int64 `json:"total"` //订单总金额，单位为分。 示例值：100
+	Total    int64  `json:"total"`    //订单总金额，单位为分。 示例值：100
 	Currency string `json:"currency"` //CNY：人民币，境内商户号仅支持人民币。
 }
+
 //支付者
 type Payer struct {
 	Openid string `json:"openid"` //用户在直连商户appid下的唯一标识。
 }
 
+//结算信息
+type SettleInfo struct {
+	ProfitSharing bool `json:"profit_sharing"`
+}
+
 //jsapi支付请求
 type JsapiPay struct {
-	Appid       string `json:"appid"`                 //由微信生成的应用ID，全局唯一
-	Mchid       string `json:"mchid"`                 //直连商户号
-	Description string `json:"description"`           //商品描述
-	OutTradeNo  string `json:"out_trade_no"`          //商户订单号
-	TimeExpire  string `json:"time_expire,omitempty"` //交易结束时间
-	Attach      string `json:"attach"`                //附加数据
-	NotifyUrl   string `json:"notify_url"`            //通知地址
-	GoodsTag    string `json:"goods_tag,omitempty"`   //订单优惠标记
-	Amount      Amount `json:"amount"`                //订单金额
-	Payer       Payer  `json:"payer"`                 //支付者
+	Appid       string     `json:"appid"`                 //由微信生成的应用ID，全局唯一
+	Mchid       string     `json:"mchid"`                 //直连商户号
+	Description string     `json:"description"`           //商品描述
+	OutTradeNo  string     `json:"out_trade_no"`          //商户订单号
+	TimeExpire  string     `json:"time_expire,omitempty"` //交易结束时间
+	Attach      string     `json:"attach"`                //附加数据
+	NotifyUrl   string     `json:"notify_url"`            //通知地址
+	GoodsTag    string     `json:"goods_tag,omitempty"`   //订单优惠标记
+	Amount      Amount     `json:"amount"`                //订单金额
+	Payer       Payer      `json:"payer"`                 //支付者
+	SettleInfo  SettleInfo `json:"settle_info"`           //结算信息
 }
 
 //预支付下单返回
@@ -93,27 +99,25 @@ type NativePay struct {
 //h5支付
 type SceneInfo struct {
 	PayerClientIp string `json:"payer_client_ip"`
-	H5Info H5Info `json:"h5_info"`
+	H5Info        H5Info `json:"h5_info"`
 }
 
 type H5Info struct {
 	Types string `json:type`
 }
 
-
 type H5Pay struct {
-	Appid       string `json:"appid"`                 //由微信生成的应用ID，全局唯一
-	Mchid       string `json:"mchid"`                 //直连商户号
-	Description string `json:"description"`           //商品描述
-	OutTradeNo  string `json:"out_trade_no"`          //商户订单号
-	TimeExpire  string `json:"time_expire,omitempty"` //交易结束时间
-	Attach      string `json:"attach"`                //附加数据
-	NotifyUrl   string `json:"notify_url"`            //通知地址
-	GoodsTag    string `json:"goods_tag,omitempty"`   //订单优惠标记
-	Amount      Amount `json:"amount"`                //订单金额
+	Appid       string    `json:"appid"`                 //由微信生成的应用ID，全局唯一
+	Mchid       string    `json:"mchid"`                 //直连商户号
+	Description string    `json:"description"`           //商品描述
+	OutTradeNo  string    `json:"out_trade_no"`          //商户订单号
+	TimeExpire  string    `json:"time_expire,omitempty"` //交易结束时间
+	Attach      string    `json:"attach"`                //附加数据
+	NotifyUrl   string    `json:"notify_url"`            //通知地址
+	GoodsTag    string    `json:"goods_tag,omitempty"`   //订单优惠标记
+	Amount      Amount    `json:"amount"`                //订单金额
 	SceneInfo   SceneInfo `json:"scene_info"`
 }
-
 
 //预支付下单返回
 type BridgeNative struct {
