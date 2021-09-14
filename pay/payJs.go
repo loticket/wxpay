@@ -71,6 +71,9 @@ func (o *JsOrder) prePayOrder(p Params) (PayPrepay,error){
 		Payer: Payer{
 			Openid: p.OpenID,
 		},
+		SettleInfo: SettleInfo{
+			ProfitSharing: true,
+		},
 	}
 
 	client,err := o.NewClient()

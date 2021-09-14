@@ -40,6 +40,11 @@ type Payer struct {
 	Openid string `json:"openid"` //用户在直连商户appid下的唯一标识。
 }
 
+//结算信息
+type SettleInfo struct {
+	ProfitSharing bool `json:"profit_sharing"`
+}
+
 //jsapi支付请求
 type JsapiPay struct {
 	Appid       string `json:"appid"`                 //由微信生成的应用ID，全局唯一
@@ -52,6 +57,7 @@ type JsapiPay struct {
 	GoodsTag    string `json:"goods_tag,omitempty"`   //订单优惠标记
 	Amount      Amount `json:"amount"`                //订单金额
 	Payer       Payer  `json:"payer"`                 //支付者
+	SettleInfo  SettleInfo `json:"settle_info"`           //结算信息
 }
 
 //预支付下单返回
